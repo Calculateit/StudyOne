@@ -1,0 +1,14 @@
+dist: xenial
+language: cpp
+compiler: clang
+script:
+- cmake .
+- cmake --build .
+deploy:
+	provider: script
+	skip_cleanup: true
+	script : - curl --verbose \
+ 		--header "Authorization: Bearer $BALTO_API_KEY" \
+ 		--form "package=@program-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb" \
+ 		--form "distribution=xenial" \
+ 		https://calculateit.baltorepo.com/studyonerepo/repoone/upload/
